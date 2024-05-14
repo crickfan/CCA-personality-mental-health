@@ -1,0 +1,138 @@
+---
+title: "CCA permutation test in ESTRA samples"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+  html_notebook:
+    toc: true
+    toc_float: true
+---
+
+
+```{r}
+rm(list=ls())
+
+library(CCA)
+library(CCP)
+library(foreach)
+library(doParallel)
+
+
+```
+
+```{r}
+
+df<- read.csv('G:/kings backup/Research/ED_project/documents/Lauren_CCA_2022/Psychiatry Research 2023 05/CCA redo 05 2023/IMAGEN - STRATIFY MASTER remove 2 HC no overlap.csv', as.is = TRUE)
+
+
+```
+
+## CCA on AN and HC
+
+### get complete data
+```{r}
+
+AN_personalities <- c('neur_mean_r' ,'extr_mean_r', 'open_mean_r',  'agre_mean_r', 'cons_mean_r',  'AS_r', 'H_r' ,'IMP_r' ,'SS_r')
+
+AN_symptoms <- c('AN_New_Girls' , 'MINI_A_MDEC', 'MINI_O_GADC', 'MINI_C_SRC')
+
+dfCompAN <- df[ c('Usercode',AN_personalities, AN_symptoms)]
+dfCompAN <- dfCompAN[complete.cases(dfCompAN), ]
+
+
+```
+
+### Canonical correlations
+
+These values match those from STATA exactly.  
+
+```{r}
+
+cca_res_AN<- CCA::cc(dfCompAN[,AN_personalities] , dfCompAN[,AN_symptoms] )
+
+print(data.frame(round(cca_res_AN$cor,4)))
+
+```
+
+### Permutation for CCA analysis on AN and HC
+
+```{r}
+set.seed(20240409)
+p.perm(dfCompAN[,AN_personalities] , dfCompAN[,AN_symptoms], nboot = 10000, rhostart = 1, type = "Wilks")
+```
+Excluding the biggest canonical correlation:  
+```{r}
+set.seed(20240409)
+p.perm(dfCompAN[,AN_personalities] , dfCompAN[,AN_symptoms], nboot = 10000, rhostart = 2, type = "Wilks")
+```
+
+Excluding the first 2 canonical correlation:  
+```{r}
+set.seed(20240409)
+p.perm(dfCompAN[,AN_personalities] , dfCompAN[,AN_symptoms], nboot = 10000, rhostart = 3, type = "Wilks")
+```
+
+Excluding the first 3 canonical correlation:  
+```{r}
+set.seed(20240409)
+p.perm(dfCompAN[,AN_personalities] , dfCompAN[,AN_symptoms], nboot = 10000, rhostart = 4, type = "Wilks")
+
+```
+
+## CCA on BN and HC
+
+### get complete data for BN and HC
+```{r}
+
+BN_personalities <- c('neur_mean_r' ,'extr_mean_r', 'open_mean_r',  'agre_mean_r', 'cons_mean_r',  'AS_r', 'H_r' ,'IMP_r' ,'SS_r')
+
+BN_symptoms <- c('BN_New_Girls' , 'MINI_A_MDEC', 'MINI_O_GADC', 'MINI_C_SRC')
+
+dfCompBN <- df[ c('Usercode',BN_personalities, BN_symptoms)]
+dfCompBN <- dfCompBN[complete.cases(dfCompBN), ]
+
+
+```
+
+### Canonical correlations
+
+These values match those from STATA exactly.  
+
+```{r}
+
+cca_res_BN<- CCA::cc(dfCompBN[,BN_personalities] , dfCompBN[,BN_symptoms] )
+
+print(data.frame(round(cca_res_BN$cor,4)))
+
+```
+
+
+### permutation for analysis on BN and HC
+
+
+```{r}
+set.seed(20240409)
+p.perm(dfCompBN[,BN_personalities] , dfCompBN[,BN_symptoms], nboot = 10000, rhostart = 1, type = "Wilks")
+```
+Excluding the biggest canonical correlation:  
+```{r}
+set.seed(20240409)
+p.perm(dfCompBN[,BN_personalities] , dfCompBN[,BN_symptoms], nboot = 10000, rhostart = 2, type = "Wilks")
+```
+
+Excluding the first 2 canonical correlation:  
+```{r}
+set.seed(20240409)
+p.perm(dfCompBN[,BN_personalities] , dfCompBN[,BN_symptoms], nboot = 10000, rhostart = 3, type = "Wilks")
+```
+
+Excluding the first 3 canonical correlation:  
+```{r}
+set.seed(20240409)
+p.perm(dfCompBN[,BN_personalities] , dfCompBN[,BN_symptoms], nboot = 10000, rhostart = 4, type = "Wilks")
+
+```
+
+

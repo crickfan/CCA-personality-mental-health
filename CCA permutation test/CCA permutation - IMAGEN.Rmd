@@ -1,0 +1,101 @@
+---
+title: "CCA permutation on the IMAGEN sample"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+  html_notebook:
+    toc: true
+    toc_float: true
+---
+
+
+```{r}
+rm(list=ls())
+
+library(CCA)
+library(CCP)
+library(foreach)
+library(doParallel)
+
+
+```
+
+```{r}
+
+
+dfComp<- read.csv('G:/kings backup/Research/ED_project/documents/Lauren_CCA_2022/JAD 2024/IMAGEN CCA redo 04 2024/dfComp_CCA.csv', as.is = TRUE)
+
+
+```
+
+
+## IMAGNEN CCA
+
+### Canonical correlations
+
+```{r}
+imagen_personalities <- c('Neuroticism_BL_r', 'Extraversion_BL_r', 'Openness_BL_r', 'Agreeableness_BL_r', 'Conscientiousness_BL_r', 'H_BL_r', 'AS_BL_r', 'IMP_BL_r', 'SS_BL_r')
+
+imagen_symptoms <- c('bingeDev', 'purgeDev' ,'fastDev3', 'sdepbandDev' ,'sgenabandDev', 'DSHDev')
+
+
+cca_res<- CCA::cc(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms] )
+
+```
+
+
+These values match those from STATA exactly.  
+
+```{r}
+print(data.frame(round(cca_res$cor,4)))
+
+```
+
+
+### CCA permutation analysis on IMAGEN 
+
+
+```{r}
+set.seed(20240409)
+p.perm(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms], nboot = 10000, rhostart = 1, type = "Wilks")
+```
+
+Excluding the biggest canonical correlation:  
+```{r}
+
+p.perm(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms], nboot = 10000, rhostart = 2, type = "Wilks")
+```
+
+Excluding the first 2 canonical correlation:  
+```{r}
+
+p.perm(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms], nboot = 10000, rhostart = 3, type = "Wilks")
+```
+
+Excluding the first 3 canonical correlation:  
+```{r}
+
+p.perm(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms], nboot = 10000, rhostart = 4, type = "Wilks")
+
+```
+
+Excluding the first 4 canonical correlation:  
+```{r}
+
+p.perm(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms], nboot = 10000, rhostart = 5, type = "Wilks")
+
+```
+
+Excluding the first 5 canonical correlation:  
+```{r}
+
+p.perm(dfComp[,imagen_personalities] , dfComp[,imagen_symptoms], nboot = 10000, rhostart = 6, type = "Wilks")
+
+```
+
+
+
+
+
