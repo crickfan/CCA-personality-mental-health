@@ -1,9 +1,9 @@
-# CCA-personality-mental-health
+ This repository hosts the analytical codes and results for the following paper: 
  
- Analytical codes and results for the manuscript "Distinct personality profiles associated with disease risk and diagnostic status in eating disorders"  
- 
- STATA codes and output are shown in the pdf files.  
- 
+ Zhang, Z., Robinson, L., Campbell, I., et al. (2024). Distinct personality profiles associated with disease risk and diagnostic status in eating disorders. Journal of Affective Disorders, 360, 146–155. https://doi.org/10.1016/j.jad.2024.05.132
+
+ STATA codes and output are shown in the pdf files.
+   
 ## Cronbach's alpha
  Cronbach's alpha for the personality measures was calculated in the population sample and the clinical sample respectively.  
 
